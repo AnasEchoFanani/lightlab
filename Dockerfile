@@ -1,24 +1,23 @@
-FROM node:20-alpine AS build
-WORKDIR /app
-COPY package.json pnpm-lock.yaml ./
-RUN corepack enable && corepack prepare pnpm@latest --activate
-RUN pnpm install --frozen-lockfile
-COPY . .
-RUN pnpm build
+# Use an official Node.js runtime as a parent image
+FROM node:20-alpine
 
-FROM node:20-alpine AS runner
-ENV NODE_ENV=production
-ENV HOST=0.0.0.0
-ENV PORT=4173
-ENV HOME=/home/app
+# Set the working directory
 WORKDIR /app
-RUN addgroup -S app && adduser -S app -G app && \
-	mkdir -p /home/app/.cache/node/corepack && \
-	chown -R app:app /home/app
-COPY package.json pnpm-lock.yaml ./
-RUN corepack enable && corepack prepare pnpm@latest --activate
-RUN pnpm install --frozen-lockfile
-COPY --from=build /app/dist ./dist
-USER app
-EXPOSE 4173
-CMD ["pnpm", "preview", "--host", "0.0.0.0", "--port", "4173"]
+
+# Copy package.json and package-lock.json
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy the rest of the application code
+COPY . .
+
+# Build the application
+RUN npm run build
+
+# Expose the port the app runs on
+EXPOSE 8080
+
+# Serve the application
+CMD ["npm", "run", "preview", "--", "--port", "8080"]
