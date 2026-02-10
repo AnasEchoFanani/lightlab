@@ -125,7 +125,7 @@ function Home() {
             </section>
 
             <section className="py-40">
-                <h2 className="text-center font-display italic text-8xl md:text-[12vw] opacity-10 uppercase mb-20 select-none">{copy.home.methodTitle}</h2>
+                <h2 className="text-center font-display italic text-6xl md:text-[12vw] opacity-10 uppercase mb-20 select-none">{copy.home.methodTitle}</h2>
                 <div className="space-y-32">
                     {copy.home.methodCards.map((item, index) => (
                         <div key={item.title} className="relative">
