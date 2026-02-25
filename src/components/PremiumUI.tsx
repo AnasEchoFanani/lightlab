@@ -51,11 +51,11 @@ export const MagneticButton = memo(({
 
   const baseStyles = variant === 'primary'
     ? (isDark
-      ? 'bg-white text-black border border-white/30 hover:bg-black hover:text-white hover:border-white/50 hover:shadow-[0_0_40px_rgba(255,255,255,0.3)]'
-      : 'bg-black text-white border border-black/30 hover:bg-white hover:text-black hover:border-black/40 hover:shadow-[0_0_40px_rgba(0,0,0,0.3)]')
+      ? 'bg-white text-black border border-white/30 hover:bg-black hover:text-white hover:border-white/50 hover:shadow-[0_0_40px_rgba(255,255,255,0.3)] focus-visible:bg-black focus-visible:text-white'
+      : 'bg-black text-white border border-black/30 hover:bg-white hover:text-black hover:border-black/40 hover:shadow-[0_0_40px_rgba(0,0,0,0.3)] focus-visible:bg-white focus-visible:text-black')
     : (isDark
-        ? 'border border-white/20 text-white hover:border-white/40'
-        : 'border border-black/20 text-black hover:border-black/40')
+        ? 'border border-white/20 text-white hover:border-white/40 focus-visible:border-white/60'
+        : 'border border-black/20 text-black hover:border-black/40 focus-visible:border-black/60')
 
   const commonProps = {
     ref: buttonRef,

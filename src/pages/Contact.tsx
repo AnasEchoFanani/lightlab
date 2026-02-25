@@ -114,9 +114,9 @@ function Contact({ themeMode }: ContactProps) {
                       const id = `service-${type.replace(/\s+/g, '-').toLowerCase()}`
                       return (
                         <div className="relative group" key={type}>
-                          <input className="hidden service-toggle" id={id} name="service" type="checkbox" value={type} />
+                          <input className="sr-only peer service-toggle" id={id} name="service" type="checkbox" value={type} />
                           <label
-                            className={`px-8 py-5 rounded-full border ${isDark ? 'border-white/10 hover:bg-white/5 peer-checked:bg-white peer-checked:text-black peer-checked:border-white' : 'border-black/10 hover:bg-black/5 peer-checked:bg-black peer-checked:text-white peer-checked:border-black'} text-[10px] font-bold uppercase tracking-[0.3em] cursor-pointer transition-all inline-block shadow-lg`}
+                            className={`px-8 py-5 rounded-full border ${isDark ? 'border-white/10 hover:bg-white/5 peer-checked:bg-white peer-checked:text-black peer-checked:border-white peer-focus-visible:ring-2 peer-focus-visible:ring-white/40 peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-[#050505]' : 'border-black/10 hover:bg-black/5 peer-checked:bg-black peer-checked:text-white peer-checked:border-black peer-focus-visible:ring-2 peer-focus-visible:ring-black/20 peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-[#fafafa]'} text-[10px] font-bold uppercase tracking-[0.3em] cursor-pointer transition-all inline-block shadow-lg`}
                             htmlFor={id}
                           >
                             {type}
