@@ -1,7 +1,16 @@
-import { useLayoutEffect, useRef, useMemo, memo, useState, useCallback, createContext, useContext, type MouseEvent, type ReactNode } from 'react'
+import { useLayoutEffect, useRef, useMemo, memo, useState, useCallback, createContext, useContext, type MouseEvent } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useLanguage } from '../i18n'
+import {
+  MagneticButton,
+  TextReveal,
+  SplitText,
+  CinematicImage,
+  ANIMATION,
+  NoiseTexture,
+  AmbientGlow
+} from '../components/PremiumUI'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -38,164 +47,6 @@ const IMAGES = {
   ],
   cta: 'https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?w=1000&q=85' // Abstract gradient
 }
-
-// Animation configuration
-const ANIMATION = {
-  duration: { reveal: 1.2, hover: 0.6, stagger: 0.08 },
-  ease: {
-    luxury: 'cubic-bezier(0.16, 1, 0.3, 1)',
-    smooth: 'cubic-bezier(0.62, 0.05, 0.01, 0.99)',
-    bounce: 'cubic-bezier(0.34, 1.56, 0.64, 1)'
-  }
-}
-
-// Magnetic button with enhanced hover
-interface MagneticButtonProps {
-  children: ReactNode
-  className?: string
-  href: string
-  variant?: 'primary' | 'outline'
-}
-
-const MagneticButton = memo(({ children, className = '', href, variant = 'primary' }: MagneticButtonProps) => {
-  const buttonRef = useRef<HTMLAnchorElement | null>(null)
-  const [position, setPosition] = useState({ x: 0, y: 0 })
-  const { theme } = useContext(ThemeContext)
-  const isDark = theme === 'dark'
-
-  const handleMouseMove = useCallback((e: MouseEvent<HTMLAnchorElement>) => {
-    if (!buttonRef.current) return
-    const rect = buttonRef.current.getBoundingClientRect()
-    const x = (e.clientX - rect.left - rect.width / 2) * 0.4
-    const y = (e.clientY - rect.top - rect.height / 2) * 0.4
-    setPosition({ x, y })
-  }, [])
-
-  const handleMouseLeave = useCallback(() => {
-    setPosition({ x: 0, y: 0 })
-  }, [])
-
-  const baseStyles = variant === 'primary'
-    ? (isDark
-      ? 'bg-white text-black border border-white/30 hover:bg-black hover:text-white hover:border-white/50 hover:shadow-[0_0_40px_rgba(255,255,255,0.3)]'
-      : 'bg-black text-white border border-black/30 hover:bg-white hover:text-black hover:border-black/40 hover:shadow-[0_0_40px_rgba(0,0,0,0.3)]')
-    : (isDark
-        ? 'border border-white/20 text-white hover:border-white/40'
-        : 'border border-black/20 text-black hover:border-black/40')
-
-  return (
-    <a
-      ref={buttonRef}
-      href={href}
-      className={`inline-block transition-transform duration-300 ease-out ${baseStyles} ${className}`}
-      style={{ transform: `translate(${position.x}px, ${position.y}px)` }}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-    >
-      {children}
-    </a>
-  )
-})
-
-// Text reveal with mask animation
-interface TextRevealProps {
-  children: ReactNode
-  delay?: number
-  className?: string
-  direction?: 'up' | 'down' | 'left' | 'right'
-}
-
-const TextReveal = memo(({ children, delay = 0, className = '', direction = 'up' }: TextRevealProps) => {
-  const ref = useRef<HTMLDivElement | null>(null)
-  
-  useLayoutEffect(() => {
-    const el = ref.current
-    if (!el) return
-    
-    const fromY = direction === 'up' ? '100%' : direction === 'down' ? '-100%' : '0%'
-    const fromX = direction === 'left' ? '100%' : direction === 'right' ? '-100%' : '0%'
-    
-    gsap.fromTo(el, 
-      { y: fromY, x: fromX, opacity: 0 },
-      { 
-        y: '0%', 
-        x: '0%',
-        opacity: 1, 
-        duration: ANIMATION.duration.reveal,
-        delay,
-        ease: ANIMATION.ease.luxury,
-        scrollTrigger: {
-          trigger: el,
-          start: 'top 85%',
-          once: true
-        }
-      }
-    )
-  }, [delay, direction])
-
-  return (
-    <div className={`overflow-hidden ${className}`}>
-      <div ref={ref} className="will-change-transform">
-        {children}
-      </div>
-    </div>
-  )
-})
-
-// Split text animation
-interface SplitTextProps {
-  text: string
-  className?: string
-  delay?: number
-  type?: 'chars' | 'words'
-}
-
-const SplitText = memo(({ text, className = '', delay = 0, type = 'chars' }: SplitTextProps) => {
-  const containerRef = useRef<HTMLDivElement | null>(null)
-  
-  const elements = type === 'chars' 
-    ? text.split('').map((char: string, i: number) => (
-        <span key={i} className="split-char inline-block" style={{ display: char === ' ' ? 'inline' : 'inline-block' }}>
-          {char === ' ' ? '\u00A0' : char}
-        </span>
-      ))
-    : text.split(' ').map((word: string, i: number) => (
-        <span key={i} className="split-word inline-block mr-[0.25em]">
-          {word}
-        </span>
-      ))
-
-  useLayoutEffect(() => {
-    const chars = containerRef.current?.querySelectorAll('.split-char, .split-word')
-    if (!chars?.length) return
-
-    gsap.fromTo(chars,
-      { y: '100%', opacity: 0, rotateX: -90 },
-      {
-        y: '0%',
-        opacity: 1,
-        rotateX: 0,
-        duration: 0.8,
-        stagger: type === 'chars' ? 0.02 : 0.08,
-        delay,
-        ease: ANIMATION.ease.luxury,
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top 85%',
-          once: true
-        }
-      }
-    )
-  }, [delay, type])
-
-  return (
-    <div ref={containerRef} className={`overflow-hidden ${className}`} style={{ perspective: '1000px' }}>
-      <div className="flex flex-wrap">
-        {elements}
-      </div>
-    </div>
-  )
-})
 
 // Luxury card with glassmorphism
 interface LuxuryCardItem {
@@ -344,63 +195,6 @@ const LuxuryCard = memo(({ item, index, variant = 'default', copy, isArabic }: L
   )
 })
 
-// Cinematic image with reveal
-interface CinematicImageProps {
-  src: string
-  alt: string
-  className?: string
-  priority?: boolean
-}
-
-const CinematicImage = memo(({ src, alt, className = '', priority = false }: CinematicImageProps) => {
-  const containerRef = useRef<HTMLDivElement | null>(null)
-  const imageRef = useRef<HTMLImageElement | null>(null)
-  const overlayRef = useRef<HTMLDivElement | null>(null)
-
-  useLayoutEffect(() => {
-    const container = containerRef.current
-    const image = imageRef.current
-    const overlay = overlayRef.current
-    
-    if (!container || !image || !overlay) return
-
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: container,
-        start: 'top 80%',
-        once: true
-      }
-    })
-
-    tl.fromTo(overlay,
-      { scaleX: 1 },
-      { scaleX: 0, duration: 1.4, ease: ANIMATION.ease.luxury, transformOrigin: 'right center' }
-    )
-    .fromTo(image,
-      { scale: 1.3, filter: 'blur(20px)' },
-      { scale: 1, filter: 'blur(0px)', duration: 1.6, ease: ANIMATION.ease.smooth },
-      '-=1.2'
-    )
-
-    return () => {
-      tl.kill()
-    }
-  }, [])
-
-  return (
-    <div ref={containerRef} className={`relative overflow-hidden ${className}`}>
-      <div ref={overlayRef} className="absolute inset-0 bg-current z-10" />
-      <img
-        ref={imageRef}
-        src={src}
-        alt={alt}
-        className="w-full h-full object-cover will-change-transform"
-        loading={priority ? 'eager' : 'lazy'}
-      />
-    </div>
-  )
-})
-
 // Service showcase with 3D perspective
 interface ServiceShowcaseItem {
   title: string
@@ -481,6 +275,7 @@ const ServiceShowcase = memo(({ item, index, copy, isReversed }: ServiceShowcase
           <MagneticButton 
             href="#contact"
             variant="outline"
+            isDark={isDark}
             className="group inline-flex items-center gap-4 px-6 py-3 rounded-full text-xs font-medium tracking-[0.2em] uppercase"
           >
             <span className="relative overflow-hidden h-4">
@@ -626,19 +421,8 @@ function Home({ themeMode }: HomeProps) {
           style={{ width: `${scrollProgress * 100}%` }} 
         />
         
-        {/* Noise texture */}
-        <div className={`fixed inset-0 pointer-events-none z-50 mix-blend-overlay opacity-[0.03]`}>
-          <svg className="w-full h-full">
-            <filter id="noiseFilter">
-              <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" stitchTiles="stitch"/>
-            </filter>
-            <rect width="100%" height="100%" filter="url(#noiseFilter)"/>
-          </svg>
-        </div>
-
-        {/* Ambient glows */}
-        <div className={`fixed top-0 left-1/4 w-[600px] h-[600px] rounded-full blur-[150px] pointer-events-none transition-colors duration-700 ${isDark ? 'bg-white/[0.02]' : 'bg-black/[0.02]'}`} />
-        <div className={`fixed bottom-0 right-1/4 w-[400px] h-[400px] rounded-full blur-[120px] pointer-events-none transition-colors duration-700 ${isDark ? 'bg-white/[0.01]' : 'bg-black/[0.01]'}`} />
+        <NoiseTexture />
+        <AmbientGlow isDark={isDark} />
 
         <div className="max-w-[1800px] mx-auto px-6 md:px-12 lg:px-20 relative z-10">
           
@@ -906,6 +690,7 @@ function Home({ themeMode }: HomeProps) {
               <div className="reveal-service">
                 <MagneticButton 
                   href="mailto:hello@lightlab.dev"
+                  isDark={isDark}
                   className="group relative inline-flex items-center justify-center px-14 py-6 rounded-full overflow-hidden transition-all duration-500"
                   variant="primary"
                 >
