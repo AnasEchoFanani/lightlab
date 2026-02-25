@@ -11,7 +11,7 @@ function Contact() {
         <div className="rounded-lg overflow-hidden h-[400px] md:h-[500px] group mb-16 shadow-lg">
           <img 
             src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&h=600&fit=crop" 
-            alt="Contact us"
+            alt={copy.contact.heroImageAlt}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
@@ -87,7 +87,7 @@ function Contact() {
             <div className="relative h-[280px] overflow-hidden">
               <img 
                 src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=600&h=400&fit=crop" 
-                alt="Get in touch"
+                alt={copy.contact.heroImageAlt}
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />

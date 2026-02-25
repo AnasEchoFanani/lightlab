@@ -38,6 +38,9 @@ const translations = {
       completeSuffix: 'Complete',
       readyToStart: 'Ready to start',
       endOfMethod: 'End of method',
+      projectedImpact: 'Projected Impact',
+      impact: 'Impact',
+      viewProject: 'View Project',
     },
     footer: {
       summary: 'AI solutions, development systems, and media buying strategies built for performance and clarity.',
@@ -50,10 +53,10 @@ const translations = {
     },
     home: {
       heroTag: 'AI Solutions · Development · Media Buying',
-      heroTitle1: 'Growth',
-      heroTitle2: 'Systems.',
+      heroTitle1: 'Revenue',
+      heroTitle2: 'Scaling.',
       heroMeta: 'Lightlab Studio ©2026',
-      heroCopy: 'We build AI automation, product engineering, and paid media systems so your team ships faster and grows with clarity.',
+      heroCopy: 'We build bespoke AI automation, high-performance product engineering, and brand-safe media systems to scale your revenue with absolute clarity.',
       scrollLabel: 'Scroll',
       expertiseLabel: 'Expertise',
       expertiseTitle: 'What we do best',
@@ -93,24 +96,27 @@ const translations = {
       serviceTracks: [
         {
           title: 'AI Solutions',
-          copy: 'Agent workflows, internal copilots, and automation layers that reduce cycle time and unlock 24/7 execution.',
+          copy: 'Bespoke agent workflows and automation layers that reduce operational friction and unlock 24/7 execution velocity.',
+          result: '1,200+ hours saved',
           href: '/services/ai',
         },
         {
           title: 'Development Solutions',
-          copy: 'Full-stack product delivery with performance-first architecture, modern UI systems, and scalable APIs.',
+          copy: 'High-performance product delivery with luxury-grade UI systems and scalable architecture built for growth.',
+          result: '3x release velocity',
           href: '/services/development',
         },
         {
           title: 'Media Buying',
-          copy: 'Performance creative, funnel analytics, and growth experiments engineered for measurable ROAS.',
+          copy: 'Brand-safe performance creative and funnel analytics engineered to scale revenue and maximize ROAS.',
+          result: '41% ROAS lift',
           href: '/services/media-buying',
         },
       ],
       impactStats: [
-        { label: 'Average launch window', value: '6-10 weeks' },
-        { label: 'Automation hours saved', value: '1,200+' },
-        { label: 'Media efficiency lift', value: '24-41%' },
+        { label: 'Revenue Growth', value: '+35% Avg' },
+        { label: 'Efficiency Gain', value: '4.2x' },
+        { label: 'Launch Velocity', value: '-40% Time' },
       ],
       methodTitle: 'The Method',
       methodCards: [
@@ -151,16 +157,17 @@ const translations = {
       ctaLabel: 'Next Move',
       ctaMeta: 'Response time',
       ctaMetaValue: 'Within 24 hours',
-      ctaButton: 'Contact Lightlab',
+      ctaButton: 'Book a Diagnostic',
     },
     services: {
-      title: 'Built to Scale',
-      subtitle: 'Clear service tracks for AI automation, product development, and paid media growth.',
+      title: 'Scaling Engines',
+      subtitle: 'Premium service tracks for AI automation, high-performance development, and brand-safe media buying.',
       overview: {
-        heroEyebrow: 'Expertise & Delivering',
-        heroTitleLine1: 'Our',
-        heroTitleLine2: 'Expertise.',
+        heroEyebrow: 'Precision & Scale',
+        heroTitleLine1: 'Scaling',
+        heroTitleLine2: 'Engines.',
         heroSubtitle: 'Three core pillars to build, automate, and accelerate your digital assets.',
+        heroImageAlt: 'Services overview',
         tracks: [
           {
             title: 'AI Solutions',
@@ -190,10 +197,10 @@ const translations = {
           },
           {
             title: 'Media Buying',
-            description: 'Performance creative and funnel analytics for measurable ROAS.',
+            description: 'Brand-safe performance creative and funnel analytics for measurable ROAS.',
             deliverables: [
               'Meta & Google Ads',
-              'Creative strategy',
+              'Performance Creative Lab',
               'Landing page CRO',
               'Attribution tracking',
             ],
@@ -207,9 +214,9 @@ const translations = {
         workflowTitleLine2: 'Workflow.',
         workflowSteps: [
           {
-            label: '01 / DISCOVERY',
-            title: 'Diagnostic',
-            copy: 'Analyze bottlenecks and define priority KPIs.',
+            label: '01 / DIAGNOSTIC',
+            title: 'Systems Audit',
+            copy: 'Deep-dive into your current bottlenecks to define revenue-critical KPIs.',
           },
           {
             label: '02 / BLUEPRINT',
@@ -228,8 +235,8 @@ const translations = {
           },
         ],
         ctaEyebrow: 'Ready to start?',
-        ctaTitle: 'Launch your',
-        ctaTitleEmphasis: 'Track',
+        ctaTitle: 'Book your',
+        ctaTitleEmphasis: 'Audit',
         ctaCopy: 'Whether for an AI audit or a full engineering rebuild, we are ready.',
         ctaMetaLabel: 'Availability',
         ctaMetaValue: 'Open for 2 new projects this quarter',
@@ -368,6 +375,7 @@ const translations = {
         heroEyebrow: 'Studio essence',
         heroTitleLine1: 'The team &',
         heroTitleLine2: 'The philosophy.',
+        heroImageAlt: 'About lightlab',
         manifestoLabel: 'Our manifesto',
         manifestoLead: 'We believe technology should multiply talent, not slow it down.',
         manifestoCopy: 'Lightlab was born to reconcile high-end design with the raw power of automation. We are not only builders, we are system architects.',
@@ -468,8 +476,14 @@ const translations = {
       ctaButton: 'Schedule a Call',
     },
     projects: {
-      title: 'Selected builds',
-      subtitle: 'A snapshot of recent systems spanning AI automation, software development, and media buying.',
+      titleLine1: 'Proven',
+      titleLine2: 'Results',
+      subtitle: 'A selection of high-impact engagements across AI automation, product development, and revenue-scaling media.',
+      stats: {
+        projects: 'Projects',
+        awards: 'Awards',
+        years: 'Years',
+      },
       items: [
         { title: 'Helios Automation Suite', focus: 'AI + Ops', result: 'Reduced support workload by 22% in 60 days.' },
         { title: 'Pulse Commerce Build', focus: 'Development', result: '3x release velocity with a modular storefront.' },
@@ -488,6 +502,7 @@ const translations = {
     contact: {
       title: 'Start the build',
       subtitle: 'Tell us about your goals. We will map the strategy and assemble the right automation, build, or media stack to deliver.',
+      heroImageAlt: 'Contact us',
       heroEyebrow: 'Start a conversation',
       heroTitleLine1: 'Let us talk about',
       heroTitleLine2: 'your project.',
@@ -625,6 +640,9 @@ const translations = {
       completeSuffix: 'Complete',
       readyToStart: 'Pret a demarrer',
       endOfMethod: 'Fin de la methode',
+      projectedImpact: 'Impact Projeté',
+      impact: 'Impact',
+      viewProject: 'Voir le projet',
     },
     footer: {
       summary: 'Solutions IA, developpement produit et media buying pour une croissance claire et mesurable.',
@@ -637,10 +655,10 @@ const translations = {
     },
     home: {
       heroTag: 'Solutions IA · Developpement · Media Buying',
-      heroTitle1: 'Systemes',
-      heroTitle2: 'de croissance.',
+      heroTitle1: 'Scaling',
+      heroTitle2: 'des Revenus.',
       heroMeta: 'Lightlab Studio ©2026',
-      heroCopy: 'Nous construisons l automation IA, le developpement produit et les systemes media pour que votre equipe livre plus vite.',
+      heroCopy: 'Nous concevons l\'automation IA sur mesure, le développement produit haute performance et les systèmes média "brand-safe" pour scaler vos revenus avec clarté.',
       scrollLabel: 'Defiler',
       expertiseLabel: 'Expertise',
       expertiseTitle: 'Ce que nous faisons le mieux',
@@ -680,24 +698,27 @@ const translations = {
       serviceTracks: [
         {
           title: 'Solutions IA',
-          copy: 'Agents, copilots internes et automations qui reduisent le cycle time 24/7.',
+          copy: 'Workflows d\'agents sur mesure et automations qui réduisent les frictions opérationnelles et boostent la vitesse d\'exécution 24/7.',
+          result: '1,200+ heures gagnées',
           href: '/services/ai',
         },
         {
-          title: 'Developpement',
-          copy: 'Delivery full-stack avec architecture performante, UX moderne et APIs scalables.',
+          title: 'Développement',
+          copy: 'Delivery produit haute performance avec des systèmes UI de luxe et une architecture scalable conçue pour la croissance.',
+          result: 'vitesse de release x3',
           href: '/services/development',
         },
         {
           title: 'Media Buying',
-          copy: 'Creatifs performants, analytics de funnel et experiments pour un ROAS mesurable.',
+          copy: 'Créatifs performants "brand-safe" et analytics de funnel conçus pour scaler les revenus et maximiser le ROAS.',
+          result: '+41% ROAS lift',
           href: '/services/media-buying',
         },
       ],
       impactStats: [
-        { label: 'Delai moyen de lancement', value: '6-10 semaines' },
-        { label: 'Heures automatisees', value: '1,200+' },
-        { label: 'Gain d efficacite media', value: '24-41%' },
+        { label: 'Croissance Revenu', value: '+35% Moy' },
+        { label: 'Gain Efficacité', value: '4.2x' },
+        { label: 'Vitesse Lancement', value: '-40% Temps' },
       ],
       methodTitle: 'La methode',
       methodCards: [
@@ -738,16 +759,17 @@ const translations = {
       ctaLabel: 'Prochaine etape',
       ctaMeta: 'Temps de reponse',
       ctaMetaValue: 'Moins de 24 heures',
-      ctaButton: 'Contacter Lightlab',
+      ctaButton: 'Réserver un Diagnostic',
     },
     services: {
-      title: 'Concu pour scaler',
-      subtitle: 'Tracks clairs pour l automation IA, le developpement produit et la croissance media.',
+      title: 'Moteurs de Scaling',
+      subtitle: 'Tracks premium pour l\'automation IA, le développement haute performance et le media buying "brand-safe".',
       overview: {
         heroEyebrow: 'Expertise & Delivery',
         heroTitleLine1: 'Nos',
         heroTitleLine2: 'Expertises.',
         heroSubtitle: 'Trois piliers fondamentaux pour construire, automatiser et propulser vos actifs digitaux.',
+        heroImageAlt: 'Aperçu des services',
         tracks: [
           {
             title: 'Solutions IA',
@@ -955,6 +977,7 @@ const translations = {
         heroEyebrow: 'L essence du studio',
         heroTitleLine1: 'L equipe &',
         heroTitleLine2: 'La philosophie.',
+        heroImageAlt: 'À propos de lightlab',
         manifestoLabel: 'Notre manifeste',
         manifestoLead: 'Nous croyons que la technologie doit multiplier le talent, pas le freiner.',
         manifestoCopy: 'Lightlab est ne pour reconcilier l esthetique du design haut de gamme avec la puissance de l automation. Nous ne sommes pas seulement des builders, nous sommes des architectes de systemes.',
@@ -1055,8 +1078,14 @@ const translations = {
       ctaButton: 'Planifier un call',
     },
     projects: {
-      title: 'Builds selectionnes',
-      subtitle: 'Apercu des systemes IA, developpement logiciel et media buying recents.',
+      titleLine1: 'Résultats',
+      titleLine2: 'Prouvés',
+      subtitle: 'Une sélection d\'engagements à fort impact couvrant l\'automation IA, le développement produit et le scaling des revenus.',
+      stats: {
+        projects: 'Projets',
+        awards: 'Prix',
+        years: 'Années',
+      },
       items: [
         { title: 'Helios Automation Suite', focus: 'IA + Ops', result: 'Charge support -22% en 60 jours.' },
         { title: 'Pulse Commerce Build', focus: 'Developpement', result: '3x vitesse de release avec storefront modulaire.' },
@@ -1075,6 +1104,7 @@ const translations = {
     contact: {
       title: 'Demarrer un projet',
       subtitle: 'Partagez vos objectifs. Nous assemblerons la stack automation, dev et media pour livrer.',
+      heroImageAlt: 'Contactez-nous',
       heroEyebrow: 'Demarrer une conversation',
       heroTitleLine1: 'Parlons de',
       heroTitleLine2: 'votre projet.',
@@ -1194,6 +1224,8 @@ const ar = {
   },
   ui: {
     ...translations.en.ui,
+    projectedImpact: 'الأثر المتوقع',
+    impact: 'الأثر',
     track: 'المسار',
     chapter: 'قسم',
     deliverables: 'المخرجات',
@@ -1217,6 +1249,7 @@ const ar = {
     completeSuffix: 'مكتمل',
     readyToStart: 'جاهز للبدء',
     endOfMethod: 'نهاية المنهجية',
+    viewProject: 'عرض المشروع',
   },
   footer: {
     ...translations.en.footer,
@@ -1230,9 +1263,9 @@ const ar = {
   home: {
     ...translations.en.home,
     heroTag: 'حلول الذكاء الاصطناعي · التطوير · شراء الوسائط',
-    heroTitle1: 'أنظمة',
-    heroTitle2: 'النمو.',
-    heroCopy: 'نبني أتمتة الذكاء الاصطناعي، وهندسة المنتجات، وأنظمة الإعلانات المدفوعة لتتحرك فرقك أسرع وتنمو بوضوح.',
+    heroTitle1: 'نمو',
+    heroTitle2: 'الإيرادات.',
+    heroCopy: 'نبني أتمتة ذكاء اصطناعي مخصصة، وهندسة منتجات عالية الأداء، وأنظمة وسائط آمنة للعلامة التجارية لزيادة إيراداتك بوضوح تام.',
     scrollLabel: 'مرّر',
     expertiseLabel: 'الخبرة',
     expertiseTitle: 'ما نجيده بأفضل شكل',
@@ -1273,23 +1306,26 @@ const ar = {
       {
         ...translations.en.home.serviceTracks[0],
         title: 'حلول الذكاء الاصطناعي',
-        copy: 'سير عمل الوكلاء، ومساعدون داخليون، وطبقات أتمتة تقلل زمن التنفيذ وتفتح تشغيلًا على مدار الساعة.',
+        copy: 'سير عمل وكلاء مخصص وطبقات أتمتة تقلل الاحتكاك التشغيلي وتسرع التنفيذ على مدار الساعة.',
+        result: 'توفير +1,200 ساعة',
       },
       {
         ...translations.en.home.serviceTracks[1],
         title: 'حلول التطوير',
-        copy: 'تسليم منتجات Full-stack بهندسة عالية الأداء، وأنظمة واجهات حديثة، وواجهات برمجية قابلة للتوسع.',
+        copy: 'تسليم منتجات عالية الأداء مع أنظمة واجهات فاخرة وهندسة قابلة للتوسع مصممة للنمو.',
+        result: 'سرعة إصدار x3',
       },
       {
         ...translations.en.home.serviceTracks[2],
         title: 'شراء الوسائط',
-        copy: 'إبداع أدائي، وتحليلات القمع التسويقي، وتجارب نمو مصممة لتحقيق عائد إعلاني قابل للقياس.',
+        copy: 'إبداع أدائي آمن للعلامة التجارية وتحليلات قمع تسويقي مصممة لزيادة الإيرادات وتحقيق أقصى عائد على الإنفاق الإعلاني.',
+        result: 'زيادة ROAS بنسبة +41%',
       },
     ],
     impactStats: [
-      { label: 'متوسط زمن الإطلاق', value: '6-10 أسابيع' },
-      { label: 'ساعات أتمتة موفّرة', value: '+1,200' },
-      { label: 'تحسن كفاءة الإعلانات', value: '%24-41' },
+      { label: 'نمو الإيرادات', value: '+35% متوسّط' },
+      { label: 'زيادة الكفاءة', value: '4.2x' },
+      { label: 'سرعة الإطلاق', value: '-40% وقت' },
     ],
     methodTitle: 'المنهجية',
     methodCards: [
@@ -1330,18 +1366,19 @@ const ar = {
     ctaLabel: 'الخطوة التالية',
     ctaMeta: 'زمن الرد',
     ctaMetaValue: 'خلال 24 ساعة',
-    ctaButton: 'تواصل مع Lightlab',
+    ctaButton: 'حجز جلسة تشخيص',
   },
   services: {
     ...translations.en.services,
-    title: 'مصمم للتوسع',
-    subtitle: 'مسارات خدمات واضحة لأتمتة الذكاء الاصطناعي، وتطوير المنتجات، ونمو الإعلانات المدفوعة.',
+    title: 'محركات التوسع',
+    subtitle: 'مسارات خدمات متميزة لأتمتة الذكاء الاصطناعي، والتطوير عالي الأداء، وشراء الوسائط الآمن للعلامة التجارية.',
     overview: {
       ...translations.en.services.overview,
       heroEyebrow: 'الخبرة والتنفيذ',
       heroTitleLine1: 'خبراتنا',
       heroTitleLine2: 'الأساسية.',
       heroSubtitle: 'ثلاث ركائز لبناء أصولك الرقمية وأتمتتها وتسريعها.',
+      heroImageAlt: 'نظرة عامة على الخدمات',
       workflowEyebrow: 'منهجيتنا',
       workflowTitleLine1: 'سير عمل',
       workflowTitleLine2: 'Lightlab.',
@@ -1389,6 +1426,7 @@ const ar = {
       heroEyebrow: 'جوهر الاستوديو',
       heroTitleLine1: 'الفريق',
       heroTitleLine2: 'والفلسفة.',
+      heroImageAlt: 'عن لايت لاب',
       manifestoLabel: 'بياننا',
       manifestoLead: 'نؤمن أن التقنية يجب أن تضاعف قدرات المواهب لا أن تبطئها.',
       sinceLabel: 'منذ 2018',
@@ -1408,8 +1446,14 @@ const ar = {
   },
   projects: {
     ...translations.en.projects,
-    title: 'أعمال مختارة',
-    subtitle: 'لمحة عن أحدث أنظمة الذكاء الاصطناعي وتطوير البرمجيات وشراء الوسائط.',
+    titleLine1: 'نتائج',
+    titleLine2: 'مثبتة',
+    subtitle: 'مجموعة مختارة من المشاريع عالية التأثير في أتمتة الذكاء الاصطناعي وتطوير المنتجات ونمو الإيرادات.',
+    stats: {
+      projects: 'المشاريع',
+      awards: 'جوائز',
+      years: 'سنوات',
+    },
     focusTitle: 'مجالات التنفيذ',
     ctaTitle: 'جاهز لإطلاق منصتك القادمة؟',
     ctaButton: 'ابدأ مشروعًا',
@@ -1418,6 +1462,7 @@ const ar = {
     ...translations.en.contact,
     title: 'ابدأ مشروعًا',
     subtitle: 'شاركنا أهدافك. سنبني حزمة الأتمتة والتطوير والوسائط لتحقيق النتائج.',
+    heroImageAlt: 'اتصل بنا',
     heroEyebrow: 'ابدأ محادثة',
     heroTitleLine1: 'دعنا نتحدث عن',
     heroTitleLine2: 'مشروعك.',
@@ -1467,10 +1512,10 @@ const LanguageContext = createContext<LanguageContextValue | null>(null)
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguage] = useState<Language>(() => {
     if (typeof window === 'undefined') {
-      return 'en'
+      return 'fr'
     }
     const stored = localStorage.getItem('lightlab_language')
-    return stored === 'en' || stored === 'fr' || stored === 'ar' ? stored : 'en'
+    return stored === 'en' || stored === 'fr' || stored === 'ar' ? stored : 'fr'
   })
 
   useEffect(() => {

@@ -405,6 +405,7 @@ const CinematicImage = memo(({ src, alt, className = '', priority = false }: Cin
 interface ServiceShowcaseItem {
   title: string
   copy: string
+  result?: string
 }
 
 interface ServiceShowcaseProps {
@@ -469,6 +470,13 @@ const ServiceShowcase = memo(({ item, index, copy, isReversed }: ServiceShowcase
           <p className={`text-base leading-relaxed mb-10 max-w-md font-light ${isDark ? 'text-white/40' : 'text-black/50'}`}>
             {item.copy}
           </p>
+
+          {item.result && (
+            <div className={`mb-10 p-4 border-l-2 ${isDark ? 'border-white/20 bg-white/[0.02]' : 'border-black/20 bg-black/[0.02]'}`}>
+              <span className={`text-[10px] uppercase tracking-widest block mb-1 ${isDark ? 'text-white/30' : 'text-black/40'}`}>{copy.ui.projectedImpact}</span>
+              <span className="text-2xl font-display font-light italic">{item.result}</span>
+            </div>
+          )}
 
           <MagneticButton 
             href="#contact"
@@ -718,6 +726,22 @@ function Home({ themeMode }: HomeProps) {
             </div>
           </div>
 
+          {/* Performance Stats */}
+          <section className="py-24 border-b border-white/5">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+              {copy.home.impactStats.map((stat, i) => (
+                <div key={i} className="text-center group">
+                  <div className={`text-[10px] uppercase tracking-[0.3em] mb-4 ${isDark ? 'text-white/30' : 'text-black/40'}`}>
+                    {stat.label}
+                  </div>
+                  <div className={`text-5xl md:text-6xl font-display font-light transition-transform duration-500 group-hover:scale-110 ${isDark ? 'text-white/90' : 'text-black/90'}`}>
+                    {stat.value}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
           {/* Expertise */}
           <section className="py-32">
             <div className={`mb-24 ${textDirection.base}`}>
@@ -893,28 +917,13 @@ function Home({ themeMode }: HomeProps) {
             </div>
 
             {/* Background watermark */}
-            <div className="absolute bottom-0 left-0 right-0 overflow-hidden pointer-events-none">
-              <div className={`text-[18vw] font-display font-bold leading-none text-center whitespace-nowrap transform translate-y-1/3 ${isDark ? 'text-white/[0.015]' : 'text-black/[0.015]'}`}>
+            <div className="absolute bottom-0 left-0 right-0 h-[8vw] overflow-hidden pointer-events-none flex items-start justify-center">
+              <div className={`text-[18vw] font-display font-bold leading-none text-center whitespace-nowrap ${isDark ? 'text-white/[0.02]' : 'text-black/[0.02]'}`}>
                 LIGHTLAB
               </div>
             </div>
           </section>
 
-          {/* Footer */}
-          <footer className={`py-16 border-t flex flex-col md:flex-row justify-between items-center gap-8 text-[11px] uppercase tracking-widest font-medium ${isDark ? 'border-white/5 text-white/30' : 'border-black/5 text-black/40'}`}>
-            <span>© 2024 Lightlab Studio</span>
-            <div className="flex gap-12">
-              {['Instagram', 'LinkedIn', 'Twitter'].map(social => (
-                <a 
-                  key={social} 
-                  href="#" 
-                  className={`transition-colors duration-300 ${isDark ? 'hover:text-white/70' : 'hover:text-black/70'}`}
-                >
-                  {social}
-                </a>
-              ))}
-            </div>
-          </footer>
         </div>
 
         {/* Global styles */}

@@ -43,7 +43,7 @@ function About() {
             <div className="rounded-lg overflow-hidden h-[480px] md:h-[620px] group sticky top-32 shadow-lg">
               <img 
                 src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=900&fit=crop" 
-                alt="About lightlab"
+                alt={copy.about.overview.heroImageAlt}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />

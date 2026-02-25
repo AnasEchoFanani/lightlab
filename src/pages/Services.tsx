@@ -29,7 +29,7 @@ function Services() {
         <div className="rounded-lg overflow-hidden h-[380px] md:h-[480px] group shadow-lg">
           <img 
             src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&h=600&fit=crop" 
-            alt="Services overview"
+            alt={copy.services.overview.heroImageAlt}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
           />
         </div>

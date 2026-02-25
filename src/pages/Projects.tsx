@@ -166,9 +166,10 @@ interface ProjectCardProps {
   layout?: 'standard' | 'wide' | 'featured'
   isArabic: boolean
   isDark: boolean
+  copy: any
 }
 
-const ProjectCard = memo(({ project, index, layout = 'standard', isArabic, isDark }: ProjectCardProps) => {
+const ProjectCard = memo(({ project, index, layout = 'standard', isArabic, isDark, copy }: ProjectCardProps) => {
   const cardRef = useRef<HTMLElement | null>(null)
   const [isHovered, setIsHovered] = useState(false)
   const [mousePosition, setMousePosition] = useState({ x: 0.5, y: 0.5 })
@@ -250,16 +251,16 @@ const ProjectCard = memo(({ project, index, layout = 'standard', isArabic, isDar
           <ScrambleText text={project.title} triggerOnHover={true} />
         </h3>
 
-        {/* Description - only on featured */}
-        {isFeatured && (
-          <p className={`
-            text-base md:text-lg text-white/70 max-w-xl font-light leading-relaxed mb-6
-            transition-all duration-500 delay-100
-            ${isHovered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}
-          `}>
-            {project.result}
-          </p>
-        )}
+        {/* Description / Result */}
+        <p className={`
+          text-base text-white/70 max-w-xl font-light leading-relaxed mb-6
+          transition-all duration-500 delay-100
+          ${isFeatured ? 'md:text-lg' : 'text-sm line-clamp-2'}
+          ${isHovered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}
+        `}>
+          <span className="block text-[10px] uppercase tracking-widest text-white/40 mb-1">{copy.ui.impact}</span>
+          {project.result}
+        </p>
 
         {/* View project link */}
         <div className={`
@@ -268,7 +269,7 @@ const ProjectCard = memo(({ project, index, layout = 'standard', isArabic, isDar
           ${isHovered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}
           ${isArabic ? 'flex-row-reverse' : ''}
         `}>
-          <span>View Project</span>
+          <span>{copy.ui.viewProject}</span>
           <svg 
             className={`w-4 h-4 transition-transform duration-300 ${isArabic ? 'rotate-180' : ''} ${isHovered ? 'translate-x-1' : ''}`} 
             fill="none" 
@@ -444,12 +445,8 @@ function Projects({ themeMode }: ProjectsProps) {
           <div className={`mb-16 ${isArabic ? 'text-right' : ''}`}>
             <div className="overflow-hidden">
               <h1 className={`header-line font-display text-6xl md:text-8xl lg:text-[10rem] font-light leading-[0.85] tracking-tight ${isDark ? 'text-white/90' : 'text-black/90'}`}>
-                {isArabic ? copy.projects.title : (
-                  <>
-                    <span className="block">Selected</span>
-                    <span className={`block italic ${isDark ? 'text-white/40' : 'text-black/30'}`}>Works</span>
-                  </>
-                )}
+                <span className="block">{copy.projects.titleLine1}</span>
+                <span className={`block italic ${isDark ? 'text-white/40' : 'text-black/30'}`}>{copy.projects.titleLine2}</span>
               </h1>
             </div>
           </div>
@@ -464,13 +461,13 @@ function Projects({ themeMode }: ProjectsProps) {
 
             <div className={`stats-container grid grid-cols-3 gap-8 ${isArabic ? 'text-right' : ''}`}>
               <div className="stat-item">
-                <StatCounter value="48" label="Projects" isDark={isDark} isArabic={isArabic} />
+                <StatCounter value="48" label={copy.projects.stats.projects} isDark={isDark} isArabic={isArabic} />
               </div>
               <div className="stat-item">
-                <StatCounter value="12" label="Awards" isDark={isDark} isArabic={isArabic} />
+                <StatCounter value="12" label={copy.projects.stats.awards} isDark={isDark} isArabic={isArabic} />
               </div>
               <div className="stat-item">
-                <StatCounter value="8" label="Years" isDark={isDark} isArabic={isArabic} />
+                <StatCounter value="8" label={copy.projects.stats.years} isDark={isDark} isArabic={isArabic} />
               </div>
             </div>
           </div>
@@ -487,6 +484,7 @@ function Projects({ themeMode }: ProjectsProps) {
               layout="featured"
               isArabic={isArabic}
               isDark={isDark}
+              copy={copy}
             />
           </div>
         </div>
@@ -503,6 +501,7 @@ function Projects({ themeMode }: ProjectsProps) {
               layout={idx === 0 ? 'wide' : 'standard'}
               isArabic={isArabic}
               isDark={isDark}
+              copy={copy}
             />
           ))}
         </div>
@@ -623,8 +622,8 @@ function Projects({ themeMode }: ProjectsProps) {
       </div>
 
       {/* Footer watermark */}
-      <div className="relative h-40 overflow-hidden">
-        <div className={`absolute bottom-0 left-0 right-0 text-[15vw] font-display font-bold text-center whitespace-nowrap leading-none transform translate-y-1/3 ${isDark ? 'text-white/[0.015]' : 'text-black/[0.015]'}`}>
+      <div className="relative h-[8vw] overflow-hidden flex items-start justify-center">
+        <div className={`text-[15vw] font-display font-bold text-center whitespace-nowrap leading-none ${isDark ? 'text-white/[0.02]' : 'text-black/[0.02]'}`}>
           PROJECTS
         </div>
       </div>
