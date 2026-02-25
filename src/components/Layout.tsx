@@ -189,6 +189,12 @@ function Layout({ themeMode, onToggleTheme }: LayoutProps) {
 
   return (
     <div className={`transition-colors duration-700 ${isRtl ? "rtl-adapt" : ""}`}>
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[300] focus:px-6 focus:py-3 theme-surface font-bold uppercase tracking-widest text-[10px] border border-current shadow-2xl"
+      >
+        Skip to content
+      </a>
       {showIntro && (
         <div
           ref={introOverlayRef}
@@ -334,7 +340,7 @@ function Layout({ themeMode, onToggleTheme }: LayoutProps) {
         <FiArrowUp className="scroll-top-icon text-base" />
       </button>
 
-      <main ref={mainRef} className="pt-0">
+      <main id="main-content" ref={mainRef} className="pt-0">
         <Outlet />
       </main>
 
