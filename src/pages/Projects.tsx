@@ -2,6 +2,14 @@ import { useLayoutEffect, useRef, useMemo, memo, useState, useCallback, type Rea
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useLanguage } from '../i18n'
+import {
+  NoiseTexture,
+  AmbientGlow,
+  CinematicImage,
+  TextReveal,
+  SplitText,
+  ANIMATION
+} from '../components/PremiumUI'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -22,13 +30,6 @@ const IMAGES = {
     'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=1200&q=90',
     'https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?w=1200&q=90'
   ]
-}
-
-// Animation constants
-const EASE = {
-  luxury: 'cubic-bezier(0.16, 1, 0.3, 1)',
-  smooth: 'cubic-bezier(0.62, 0.05, 0.01, 0.99)',
-  elastic: 'cubic-bezier(0.34, 1.56, 0.64, 1)'
 }
 
 // Magnetic text link
@@ -116,47 +117,6 @@ const ScrambleText = memo(({ text, className = '', triggerOnHover = false }: Scr
   )
 })
 
-// Parallax image with depth
-interface ParallaxImageProps {
-  src: string
-  alt: string
-  speed?: number
-  className?: string
-}
-
-const ParallaxImage = memo(({ src, alt, speed = 0.5, className = '' }: ParallaxImageProps) => {
-  const containerRef = useRef<HTMLDivElement | null>(null)
-  const imageRef = useRef<HTMLImageElement | null>(null)
-
-  useLayoutEffect(() => {
-    const container = containerRef.current
-    const image = imageRef.current
-    if (!container || !image) return
-
-    gsap.to(image, {
-      yPercent: speed * 30,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: container,
-        start: 'top bottom',
-        end: 'bottom top',
-        scrub: 1
-      }
-    })
-  }, [speed])
-
-  return (
-    <div ref={containerRef} className={`overflow-hidden ${className}`}>
-      <img 
-        ref={imageRef}
-        src={src} 
-        alt={alt} 
-        className="w-full h-full object-cover will-change-transform scale-110"
-      />
-    </div>
-  )
-})
-
 // Project card with hover expansion
 type ProjectsItem = ReturnType<typeof useLanguage>['copy']['projects']['items'][number]
 
@@ -169,7 +129,7 @@ interface ProjectCardProps {
   copy: any
 }
 
-const ProjectCard = memo(({ project, index, layout = 'standard', isArabic, isDark, copy }: ProjectCardProps) => {
+const ProjectCard = memo(({ project, index, layout = 'standard', isArabic, copy }: ProjectCardProps) => {
   const cardRef = useRef<HTMLElement | null>(null)
   const [isHovered, setIsHovered] = useState(false)
   const [mousePosition, setMousePosition] = useState({ x: 0.5, y: 0.5 })
@@ -192,8 +152,8 @@ const ProjectCard = memo(({ project, index, layout = 'standard', isArabic, isDar
       data-cursor="pointer"
       className={`
         group relative overflow-hidden cursor-pointer
-        ${isFeatured ? 'col-span-12 lg:col-span-8 row-span-2 h-[70vh] min-h-[600px]' : ''}
-        ${isWide ? 'col-span-12 lg:col-span-6 h-[50vh] min-h-[400px]' : 'col-span-12 md:col-span-6 lg:col-span-4 h-[45vh] min-h-[350px]'}
+        ${isFeatured ? 'col-span-12 lg:col-span-8 row-span-2 h-[70vh] min-h-[600px] rounded-3xl' : ''}
+        ${isWide ? 'col-span-12 lg:col-span-6 h-[50vh] min-h-[400px] rounded-3xl' : 'col-span-12 md:col-span-6 lg:col-span-4 h-[45vh] min-h-[350px] rounded-3xl'}
       `}
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
@@ -208,11 +168,10 @@ const ProjectCard = memo(({ project, index, layout = 'standard', isArabic, isDar
             : 'scale(1)'
         }}
       >
-        <ParallaxImage 
+        <CinematicImage
           src={IMAGES.projects[index % IMAGES.projects.length]} 
           alt={project.title}
-          speed={isFeatured ? 0.3 : 0.5}
-          className="w-full h-full"
+          className="w-full h-full object-cover"
         />
       </div>
 
@@ -236,7 +195,7 @@ const ProjectCard = memo(({ project, index, layout = 'standard', isArabic, isDar
           overflow-hidden mb-4 transition-all duration-500
           ${isHovered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}
         `}>
-          <span className="inline-block px-3 py-1 text-[10px] font-medium tracking-[0.2em] uppercase bg-white/10 backdrop-blur-md rounded-full text-white/80 border border-white/10">
+          <span className="inline-block px-3 py-1 text-[10px] font-bold tracking-[0.2em] uppercase bg-white/10 backdrop-blur-md rounded-full text-white/80 border border-white/10">
             {project.focus}
           </span>
         </div>
@@ -292,10 +251,7 @@ const ProjectCard = memo(({ project, index, layout = 'standard', isArabic, isDar
       </div>
 
       {/* Border accent */}
-      <div className={`
-        absolute inset-0 border transition-all duration-500 pointer-events-none
-        ${isDark ? 'border-white/0 group-hover:border-white/20' : 'border-black/0 group-hover:border-black/20'}
-      `} />
+      <div className="absolute inset-0 border border-white/0 group-hover:border-white/10 rounded-3xl transition-all duration-500 pointer-events-none" />
     </article>
   )
 })
@@ -352,147 +308,125 @@ const StatCounter = memo(({ value, label, isDark, isArabic }: StatCounterProps) 
 
   return (
     <div ref={ref} className={`text-center ${isArabic ? 'text-right' : ''}`}>
-      <div className={`text-5xl md:text-6xl font-display font-light mb-2 ${isDark ? 'text-white/90' : 'text-black/90'}`}>
+      <div className={`text-5xl md:text-7xl font-display font-light mb-2 ${isDark ? 'text-white/90' : 'text-black/90'}`}>
         {count}+
       </div>
-      <div className={`text-[11px] font-medium tracking-[0.2em] uppercase ${isDark ? 'text-white/40' : 'text-black/40'}`}>
+      <div className={`text-[10px] font-bold tracking-[0.3em] uppercase ${isDark ? 'text-white/30' : 'text-black/30'}`}>
         {label}
       </div>
     </div>
   )
 })
 
-function Projects({ themeMode }: ProjectsProps) {
+function Projects({}: ProjectsProps) {
   const { copy, language } = useLanguage()
   const sectionRef = useRef<HTMLElement | null>(null)
   const headerRef = useRef<HTMLElement | null>(null)
   const isArabic = useMemo(() => language === 'ar', [language])
-  const isDark = themeMode === 'dark'
 
   const projects = copy.projects.items || []
   const featuredProject = projects[0]
   const remainingProjects = projects.slice(1)
 
   useLayoutEffect(() => {
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (prefersReducedMotion) return
-
     const ctx = gsap.context(() => {
-      // Header animations
-      gsap.fromTo('.header-line',
-        { y: '100%', opacity: 0 },
-        {
-          y: '0%',
-          opacity: 1,
-          duration: 1.2,
-          stagger: 0.1,
-          ease: EASE.luxury,
-          scrollTrigger: {
-            trigger: headerRef.current,
-            start: 'top 80%',
-            once: true
-          }
+      // General reveal
+      gsap.from('.reveal-projects', {
+        y: 60,
+        opacity: 0,
+        duration: 1.2,
+        stagger: 0.1,
+        ease: ANIMATION.ease.luxury,
+        scrollTrigger: {
+          trigger: '.reveal-projects',
+          start: 'top 90%',
+          once: true
         }
-      )
-
-      // Stats animation
-      gsap.fromTo('.stat-item',
-        { y: 40, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.8,
-          stagger: 0.15,
-          ease: EASE.luxury,
-          scrollTrigger: {
-            trigger: '.stats-container',
-            start: 'top 85%',
-            once: true
-          }
-        }
-      )
-
+      })
     }, sectionRef)
 
     return () => ctx.revert()
   }, [])
 
   return (
-    <section 
+    <main
       ref={sectionRef} 
-      className={`relative min-h-screen transition-colors duration-700 ${isDark ? 'bg-[#050505] text-white' : 'bg-[#fafafa] text-black'}`}
+      className="relative min-h-screen overflow-x-hidden transition-colors duration-700 bg-[#050505] text-white"
     >
-      {/* Navigation spacer */}
-      <div className="h-24" />
+      <NoiseTexture />
+      <AmbientGlow isDark={true} />
 
-      {/* Hero Header */}
-      <header ref={headerRef} className="px-6 md:px-12 lg:px-20 pt-20 pb-16">
-        <div className="max-w-[1800px] mx-auto">
+      <div className="max-w-[1800px] mx-auto px-6 md:px-12 lg:px-20 relative z-10">
+        {/* Navigation spacer */}
+        <div className="h-32" />
+
+        {/* Hero Header */}
+        <header ref={headerRef} className="pt-20 pb-24">
           {/* Breadcrumb */}
           <div className={`overflow-hidden mb-12 ${isArabic ? 'text-right' : ''}`}>
-            <div className="header-line inline-flex items-center gap-4">
-              <span className={`text-[11px] font-medium tracking-[0.3em] uppercase ${isDark ? 'text-white/40' : 'text-black/40'}`}>
-                {copy.nav.projects}
-              </span>
-              <span className={`w-12 h-px ${isDark ? 'bg-white/20' : 'bg-black/20'}`} />
-              <span className={`text-[11px] font-medium tracking-[0.2em] uppercase px-3 py-1 rounded-full border ${isDark ? 'border-white/10 text-white/50' : 'border-black/10 text-black/50'}`}>
-                2026
-              </span>
-            </div>
+            <TextReveal>
+              <div className="flex items-center gap-6">
+                <span className="text-[11px] font-bold tracking-[0.5em] uppercase opacity-40">
+                  {copy.nav.projects}
+                </span>
+                <span className="w-16 h-px bg-white/20" />
+                <span className="text-[10px] font-bold tracking-[0.3em] uppercase px-4 py-1 rounded-full border border-white/10 opacity-40">
+                  2026 Archive
+                </span>
+              </div>
+            </TextReveal>
           </div>
 
           {/* Main title */}
-          <div className={`mb-16 ${isArabic ? 'text-right' : ''}`}>
-            <div className="overflow-hidden">
-              <h1 className={`header-line font-display text-6xl md:text-8xl lg:text-[10rem] font-light leading-[0.85] tracking-tight ${isDark ? 'text-white/90' : 'text-black/90'}`}>
-                <span className="block">{copy.projects.titleLine1}</span>
-                <span className={`block italic ${isDark ? 'text-white/40' : 'text-black/30'}`}>{copy.projects.titleLine2}</span>
-              </h1>
-            </div>
+          <div className={`mb-24 ${isArabic ? 'text-right' : ''}`}>
+            <h1 className="font-display text-[clamp(3.5rem,10vw,12rem)] font-light leading-[0.85] tracking-tighter uppercase">
+              <SplitText text={copy.projects.titleLine1} type="words" />
+              <div className="overflow-hidden">
+                <span className="block italic opacity-40 translate-y-4 translate-x-4">
+                  <SplitText text={copy.projects.titleLine2} type="words" />
+                </span>
+              </div>
+            </h1>
           </div>
 
           {/* Subtitle & Stats */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-end">
-            <div className={`overflow-hidden ${isArabic ? 'text-right' : ''}`}>
-              <p className={`header-line text-lg md:text-xl max-w-xl leading-relaxed font-light ${isDark ? 'text-white/50' : 'text-black/50'}`}>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-end">
+            <div className={`col-span-12 lg:col-span-7 overflow-hidden ${isArabic ? 'text-right' : ''}`}>
+              <p className="reveal-projects text-xl md:text-2xl max-w-2xl leading-relaxed font-light opacity-40 italic">
                 {copy.projects.subtitle}
               </p>
             </div>
 
-            <div className={`stats-container grid grid-cols-3 gap-8 ${isArabic ? 'text-right' : ''}`}>
-              <div className="stat-item">
-                <StatCounter value="48" label={copy.projects.stats.projects} isDark={isDark} isArabic={isArabic} />
+            <div className="col-span-12 lg:col-span-5 stats-container grid grid-cols-3 gap-8">
+              <div className="reveal-projects">
+                <StatCounter value="48" label={copy.projects.stats.projects} isDark={true} isArabic={isArabic} />
               </div>
-              <div className="stat-item">
-                <StatCounter value="12" label={copy.projects.stats.awards} isDark={isDark} isArabic={isArabic} />
+              <div className="reveal-projects">
+                <StatCounter value="12" label={copy.projects.stats.awards} isDark={true} isArabic={isArabic} />
               </div>
-              <div className="stat-item">
-                <StatCounter value="8" label={copy.projects.stats.years} isDark={isDark} isArabic={isArabic} />
+              <div className="reveal-projects">
+                <StatCounter value="8" label={copy.projects.stats.years} isDark={true} isArabic={isArabic} />
               </div>
             </div>
           </div>
-        </div>
-      </header>
+        </header>
 
-      {/* Featured Project - Full Bleed */}
-      {featuredProject && (
-        <div className="px-6 md:px-12 lg:px-20 mb-4">
-          <div className="max-w-[1800px] mx-auto">
+        {/* Featured Project */}
+        {featuredProject && (
+          <div className="mb-8 reveal-projects">
             <ProjectCard 
               project={featuredProject}
               index={0}
               layout="featured"
               isArabic={isArabic}
-              isDark={isDark}
+              isDark={true}
               copy={copy}
             />
           </div>
-        </div>
-      )}
+        )}
 
-      {/* Project Grid - Masonry Style */}
-      <div className="px-6 md:px-12 lg:px-20">
-        <div className="max-w-[1800px] mx-auto grid grid-cols-12 gap-4">
+        {/* Project Grid */}
+        <div className="grid grid-cols-12 gap-8 reveal-projects">
           {remainingProjects.map((project, idx) => (
             <ProjectCard 
               key={project.title}
@@ -500,135 +434,94 @@ function Projects({ themeMode }: ProjectsProps) {
               index={idx + 1}
               layout={idx === 0 ? 'wide' : 'standard'}
               isArabic={isArabic}
-              isDark={isDark}
+              isDark={true}
               copy={copy}
             />
           ))}
         </div>
-      </div>
 
-      <AnimatedDivider isDark={isDark} isArabic={isArabic} />
+        <AnimatedDivider isDark={true} isArabic={isArabic} />
 
-      {/* Focus Areas & CTA */}
-      <div className="px-6 md:px-12 lg:px-20 pb-32">
-        <div className="max-w-[1800px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
-          
-          {/* Focus Areas */}
-          <div className={`
-            relative p-12 md:p-16 rounded-sm overflow-hidden
-            ${isDark ? 'bg-white/[0.02] border border-white/[0.08]' : 'bg-black/[0.02] border border-black/[0.08]'}
-          `}>
-            {/* Background number */}
-            <div className={`absolute -bottom-8 ${isArabic ? '-left-8' : '-right-8'} text-[200px] font-display font-bold ${isDark ? 'text-white/[0.02]' : 'text-black/[0.02]'} select-none pointer-events-none`}>
-              01
+        {/* Focus Areas & CTA */}
+        <div className="pb-40">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+            {/* Focus Areas */}
+            <div className="relative p-12 md:p-20 rounded-3xl overflow-hidden bg-white/[0.02] border border-white/10 reveal-projects shadow-2xl group">
+              {/* Background number */}
+              <div className={`absolute -bottom-12 ${isArabic ? '-left-12' : '-right-12'} text-[25vw] font-display font-bold text-white/[0.015] select-none pointer-events-none group-hover:opacity-10 transition-opacity`}>
+                01
+              </div>
+
+              <div className={`relative z-10 ${isArabic ? 'text-right' : ''}`}>
+                <p className="text-[11px] font-bold tracking-[0.5em] uppercase mb-12 opacity-30">
+                  {copy.ui.focusAreas}
+                </p>
+
+                <h2 className="text-4xl md:text-6xl font-display font-light mb-16 leading-tight tracking-tight uppercase group-hover:italic transition-all">
+                  {copy.projects.focusTitle}
+                </h2>
+
+                <ul className="space-y-8">
+                  {copy.projects.focusItems?.map((item: string, idx: number) => (
+                    <li
+                      key={item}
+                      className={`group/item flex items-center gap-6 cursor-default ${isArabic ? 'flex-row-reverse' : ''}`}
+                    >
+                      <span className="text-2xl font-display font-light text-white/10 group-hover/item:text-white/40 group-hover/item:italic transition-all duration-300">
+                        0{idx + 1}
+                      </span>
+                      <span className="text-lg font-light text-white/40 group-hover/item:text-white group-hover/item:translate-x-2 transition-all duration-300">
+                        {item}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
 
-            <div className={`relative z-10 ${isArabic ? 'text-right' : ''}`}>
-              <p className={`text-[11px] font-medium tracking-[0.3em] uppercase mb-10 ${isDark ? 'text-white/30' : 'text-black/40'}`}>
-                {copy.ui.focusAreas}
-              </p>
-              
-              <h2 className={`text-3xl md:text-4xl font-display font-light mb-12 leading-tight ${isDark ? 'text-white/90' : 'text-black/90'}`}>
-                {copy.projects.focusTitle}
-              </h2>
+            {/* CTA Card */}
+            <div className="relative p-12 md:p-20 rounded-3xl overflow-hidden flex flex-col justify-between min-h-[500px] bg-white/[0.02] border border-white/10 reveal-projects shadow-2xl group backdrop-blur-3xl">
+              <div className="absolute top-0 right-0 w-32 h-[1px] bg-gradient-to-l from-white/40 to-transparent group-hover:w-full transition-all duration-1000" />
+              <div className="absolute bottom-0 left-0 w-[1px] h-32 bg-gradient-to-t from-white/40 to-transparent group-hover:h-full transition-all duration-1000" />
 
-              <ul className="space-y-6">
-                {copy.projects.focusItems?.map((item: string, idx: number) => (
-                  <li 
-                    key={item} 
-                    className={`group flex items-center gap-4 cursor-default ${isArabic ? 'flex-row-reverse' : ''}`}
+              <div className={`relative z-10 ${isArabic ? 'text-right' : ''}`}>
+                <p className="text-[11px] font-bold tracking-[0.5em] uppercase mb-10 opacity-30">
+                  {copy.ui.nextBuild}
+                </p>
+                <p className="text-4xl md:text-7xl font-display font-light leading-[1.1] tracking-tighter uppercase group-hover:italic transition-all duration-700">
+                  {copy.projects.ctaTitle}
+                </p>
+              </div>
+
+              <div className="relative z-10 mt-16">
+                 <MagneticLink
+                  href="/contact"
+                  className="w-full md:w-auto inline-flex items-center justify-between px-16 py-7 rounded-full bg-white text-black text-[11px] font-bold tracking-[0.3em] uppercase transition-all duration-500 hover:scale-[1.02] shadow-[0_20px_60px_-10px_rgba(255,255,255,0.3)]"
+                >
+                  <span>{copy.projects.ctaButton}</span>
+                  <svg
+                    className={`w-5 h-5 transition-transform duration-300 ${isArabic ? 'rotate-180' : ''} group-hover:translate-x-3`}
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
                   >
-                    <span className={`
-                      text-lg font-display font-light transition-all duration-300
-                      ${isDark ? 'text-white/20 group-hover:text-white/60' : 'text-black/20 group-hover:text-black/60'}
-                    `}>
-                      0{idx + 1}
-                    </span>
-                    <span className={`
-                      text-base font-light transition-colors duration-300
-                      ${isDark ? 'text-white/60 group-hover:text-white' : 'text-black/60 group-hover:text-black'}
-                    `}>
-                      {item}
-                    </span>
-                  </li>
-                ))}
-              </ul>
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </MagneticLink>
+              </div>
             </div>
           </div>
+        </div>
 
-          {/* CTA Card */}
-          <div className={`
-            relative p-12 md:p-16 rounded-sm overflow-hidden flex flex-col justify-between min-h-[400px]
-            ${isDark ? 'bg-white/[0.02] border border-white/[0.08]' : 'bg-black/[0.02] border border-black/[0.08]'}
-          `}>
-            {/* Animated gradient background */}
-            <div className={`
-              absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-700
-              ${isDark ? 'bg-gradient-to-br from-white/[0.03] to-transparent' : 'bg-gradient-to-br from-black/[0.02] to-transparent'}
-            `} />
-
-            <div className={`relative z-10 ${isArabic ? 'text-right' : ''}`}>
-              <p className={`text-[11px] font-medium tracking-[0.3em] uppercase mb-8 ${isDark ? 'text-white/30' : 'text-black/40'}`}>
-                {copy.ui.nextBuild}
-              </p>
-              <p className={`text-3xl md:text-4xl font-display font-light leading-tight ${isDark ? 'text-white/90' : 'text-black/90'}`}>
-                {copy.projects.ctaTitle}
-              </p>
-            </div>
-
-            <MagneticLink 
-              href="/contact"
-              className={`
-                relative z-10 mt-12 inline-flex items-center justify-center gap-4 
-                px-12 py-6 rounded-full overflow-hidden group
-                text-xs font-bold tracking-[0.2em] uppercase
-                transition-all duration-500
-                ${isDark 
-                  ? 'bg-white text-black hover:shadow-[0_0_60px_rgba(255,255,255,0.3)]' 
-                  : 'bg-black text-white hover:shadow-[0_0_60px_rgba(0,0,0,0.3)]'
-                }
-              `}
-            >
-              <span className="relative z-10">{copy.projects.ctaButton}</span>
-              <svg 
-                className={`relative z-10 w-4 h-4 transition-transform duration-300 ${isArabic ? 'rotate-180 group-hover:-translate-x-2' : 'group-hover:translate-x-2'}`} 
-                fill="none" 
-                viewBox="0 0 24 24" 
-                stroke="currentColor"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-              
-              {/* Hover fill */}
-              <div className={`
-                absolute inset-0 transform scale-x-0 group-hover:scale-x-100 
-                transition-transform duration-500 origin-left
-                ${isDark ? 'bg-black' : 'bg-white'}
-              `} />
-              <span className={`
-                absolute inset-0 flex items-center justify-center gap-4
-                text-xs font-bold tracking-[0.2em] uppercase
-                opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100
-                ${isDark ? 'text-white' : 'text-black'}
-              `}>
-                {copy.projects.ctaButton}
-                <svg className={`w-4 h-4 ${isArabic ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </span>
-            </MagneticLink>
+        {/* Footer watermark */}
+        <div className="relative h-[8vw] overflow-hidden flex items-start justify-center pointer-events-none">
+          <div className="text-[15vw] font-display font-bold text-center whitespace-nowrap leading-none text-white/[0.015] tracking-widest uppercase">
+            {copy.nav.projects}
           </div>
         </div>
       </div>
-
-      {/* Footer watermark */}
-      <div className="relative h-[8vw] overflow-hidden flex items-start justify-center">
-        <div className={`text-[15vw] font-display font-bold text-center whitespace-nowrap leading-none ${isDark ? 'text-white/[0.02]' : 'text-black/[0.02]'}`}>
-          PROJECTS
-        </div>
-      </div>
-
-    </section>
+    </main>
   )
 }
 

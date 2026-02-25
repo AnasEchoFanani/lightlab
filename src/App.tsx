@@ -67,9 +67,9 @@ function App() {
               <Route path="/services" element={<Services />} />
               <Route path="/services/:slug" element={<ServiceDetail />} />
               <Route path="/method" element={<Method themeMode={themeMode} />} />
-              <Route path="/about" element={<About />} />
+              <Route path="/about" element={<About themeMode={themeMode} />} />
               <Route path="/projects" element={<Projects themeMode={themeMode} />} />
-              <Route path="/contact" element={<Contact />} />
+              <Route path="/contact" element={<Contact themeMode={themeMode} />} />
             </Route>
           </Routes>
         </BrowserRouter>
